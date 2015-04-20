@@ -1,0 +1,162 @@
+/**********************
+ * Hauptfarben:
+ * THM Grün         =   #80BA24
+ * THM Grau         =   #4A5C66
+ * 
+ * Zusatzfarben:
+ * Rot 7427         =   #B80040
+ * Gelb 130         =   #FFB300
+ * Hellblau 306     =   #40FFED
+ * Dunkelblau 280   =   #003BD1
+ * 
+ * Schriftarten:
+ * Arial Regular
+ * Arial Bold
+ * 
+ ******************/
+
+ body{
+     margin: 0;
+ }
+ 
+ h4.textheader{
+     margin-top: 10px;
+     margin-bottom: 5px;
+ }
+ 
+ .startItem{     
+     display: inline-block;
+     width: 90px;
+     padding: 10px;
+     font-size: 1em;                                             
+     font-weight: bold;          
+ }
+ 
+ .startItem img{
+     width: 80px;
+     height: 80px;
+     margin: 5px;
+ }
+ 
+ .sub-header{     
+     padding-left: 10px !important;
+     text-align: left !important;
+     margin: 0 !important;     
+     border-bottom: 2px solid #80BA24;
+     overflow: visible !important;
+     max-height: 1.1em !important;          
+ }
+ .sub-header-icon:after{
+     right: 10px !important;
+     left:  auto !important;      
+ }
+ 
+ .ui-footer{
+     padding: 10px !important;
+ }
+ #footerLoginButton, #footerLogoutButton{
+     font-size: 1em !important;
+     margin: 0px 20px 0px 0px;
+ }
+ 
+ .center{     
+     text-align: center;
+ }
+
+  
+ #container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+ }
+
+ .rightanswer{
+    background-color : #00FF00 !important;   
+ }
+
+ .wronganswer{
+    background-color : #FF0000 !important;
+ }
+
+ .otheranswer{
+    background-color : #FFFF00 !important;
+ }
+
+ .post{
+     padding: 10px;
+     margin: 10px;
+     border: 1px solid black;
+     width: 75%;
+ }
+ 
+ .float-right{
+    float: right;
+ }
+ 
+ .float-left{
+    float: left;
+ }
+
+ .postText{    
+    margin-right:60px;     
+ }
+ 
+ .postFrom{
+     font-size: small;
+ }
+ 
+ .post img{    
+    float: right;
+ }
+ 
+ #editPostButton{
+    float: left;
+    margin: -25px;
+ }
+ 
+ #deletePostButton{
+    float: right;
+    margin: -25px;
+ }
+ 
+ #message, #post{
+     min-height: 250px;
+ }
+
+
+ /* Höhe der Textarea in Kontaktformular */
+ textarea.ui-input-text {    
+    height: inherit !important;
+ }
+
+ .no-padding{
+    padding: 0 !important;    
+ }
+ 
+ .no-margin{
+    margin: 0 !important;     
+ }
+ 
+ .ui-content-no-top-padding {
+     padding-top: 0px;
+ }
+
+ .ui-panel-inner {
+    padding:0px;
+ }
+ .ui-controlgroup {
+    margin:0;
+ }
+ 
+ .quiz_result_right{
+     margin: 5px !important;
+     padding-left: 5px !important;
+     background-color : rgba(0, 255, 0, 0.5) !important;
+     
+ }
+
+ .quiz_result_wrong{
+     margin: 5px !important;
+     padding-left: 5px !important;
+     background-color : rgba(255, 0, 0, 0.5) !important;
+ }
