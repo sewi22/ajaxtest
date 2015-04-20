@@ -2,7 +2,18 @@
     var apidomain = "http://winterling.net/phylabapi/v1";
     var username = "swnt24";
     var apikey = "3831621407f42f3290403bff5b57460c";
+    var topicid = 86;
     
+    $.mobile.document.ready(function() {
+    
+    });
+
+    document.addEventListener("deviceready", deviceready, false);
+    
+    function deviceready(){
+        navigator.splashscreen.hide();
+    }
+
     
 
     $.mobile.document.on('pagecreate', '#startPage', function(e){
@@ -13,20 +24,19 @@
         postform += '<textarea name="post" id="post"></textarea>';
         postform += '<input type="submit" id="newpost" value="Absenden"/>';
         postform += '</form>';
-                
-                
+                             
         $("#startContent").append(postform);
 
     });
     
     $.mobile.document.on("click", "#newpost", function(e){
         e.preventDefault();
-        createNewPost(86, $("#post").val(), 1);
+        createNewPost(topicId, $("#post").val(), 1);
     });
 
     $.mobile.document.on('pagebeforeshow', '#startPage', function(e){
         e.preventDefault();
-        
+        getAllPosts(topicid);
     });
     
     
@@ -49,8 +59,8 @@
             success: function(p){
                 sessionStorage.setItem("topicId", topicId);
                 $.mobile.loading("hide");
-                getAllPosts(86);
-                $(':mobile-pagecontainer').pagecontainer('change', '#topicPage');
+                $("#post").val("");
+                //$(':mobile-pagecontainer').pagecontainer('change', '#topicPage');
             },
             error: function(err){
                 //okDialog("Es wurde keine Nachricht eingetragen.", function(){});
@@ -59,85 +69,6 @@
             }
         });
     }
-    
-        
-    function createNewTopic(topicTitle, expId, postText, topicIsActive, postIsActive){        
-        $.mobile.loading("show");
-        $.ajax({
-            type: "POST",
-            beforeSend: function (request){
-                request.setRequestHeader("Authorization", localStorage.apiKey);
-            },
-            url: apidomain+"/topics",
-            data: "topicTitle=" + topicTitle + "&expId=" + expId + "&isActive=" + topicIsActive,
-            success: function(msg){
-                createNewPost(msg.topicId, postText, postIsActive);                    
-            },
-            error: function(err){
-                //okDialog(err.message, function(){});
-                $.mobile.loading("hide");
-                navigator.notification.alert(err.message, null, 'Fehler', 'OK');                
-            }
-        });
-    }
-    
-    function editTopic(topicId, topicTitle, username, expId, isActive){
-        $.mobile.loading("show");
-        $.ajax({
-            type: "PUT",
-            beforeSend: function (request){
-                request.setRequestHeader("Authorization", localStorage.apiKey);
-            },
-            url: apidomain+"/topics/"+topicId,
-            data: "topicTitle=" + topicTitle + "&username=" + username + "&expId=" + expId + "&isActive=" + isActive,
-            success: function(msg){                
-                $.mobile.loading("hide");
-                $(':mobile-pagecontainer').pagecontainer('change', '#topicPage');
-            },
-            error: function(err){
-                //okDialog(err.message, function(){});
-                $.mobile.loading("hide");
-                navigator.notification.alert(err.message, null, 'Fehler', 'OK');
-            }
-        });   
-    }        
-
-    function deleteTopic(topicId, username){
-        navigator.notification.confirm("Soll dieses Thema und alle enthaltenen Beiträge gelöscht werden?", function(buttonIndex){
-            confirmDeleteTopic(buttonIndex, topicId, username);
-        }, 'Thema löschen', ['Ja','Nein']);                    
-    }
-    
-    function confirmDeleteTopic(buttonindex, topicId, username){        
-        switch(buttonindex){
-            case 1:                    
-            $.mobile.loading("show");
-            $.ajax({            
-                type: "DELETE",
-                beforeSend: function (request){
-                    request.setRequestHeader("Authorization", localStorage.apiKey);
-                },
-                url: apidomain+"/topics/"+topicId,
-                data: "username=" + username,
-                success: function(msg){
-                    //deleteAllPosts(topicId);
-                    $.mobile.loading("hide");
-                    $(':mobile-pagecontainer').pagecontainer('change', '#startPage');
-                    //okDialog("Thema wurde erfolgreich gelöscht", function(){});
-                    navigator.notification.alert('Das Thema wurde erfolgreich gelöscht', null, 'Thema löschen', 'OK');
-                },
-                error: function(err){
-                    //okDialog(err.message, function(){});
-                    $.mobile.loading("hide");
-                    navigator.notification.alert(err.message, null, 'Fehler', 'OK');
-                }
-            });
-            break;
-        }
-    }
-            
-        
-    
     
     function editPost(postId, postText, username, isActive){        
         $.mobile.loading("show");
@@ -202,43 +133,6 @@
     }
 
     
-    /*
-    function deleteAllPosts(topicId){
-        $.ajax({
-            type: "DELETE",
-            beforeSend: function (request){
-                request.setRequestHeader("Authorization", localStorage.apiKey);
-            },
-            url: apidomain+"/topicposts/"+topicId,
-            success: function(msg){
-                $(':mobile-pagecontainer').pagecontainer('change', '#topicsListPage');
-            },
-            error: function(err){
-                okDialog(err.message, function(){});
-            }
-        });
-    }
-    */
-    
-    function getTopic(topicId, callback){
-        $.mobile.loading("show");
-        $.ajax({
-            type: 'GET',
-            url: apidomain+"/topics/"+topicId,
-            dataType: "json",
-            success: function(result) {
-                $.mobile.loading("hide");
-                callback(result);             
-            },
-            error: function(err){
-                //console.log('Fehler beim Laden der Versuchsgruppen: '+err.code);
-                //alert('Fehler beim Laden der Versuchsgruppen: '+err.code);
-                $.mobile.loading("hide");
-                navigator.notification.alert('Fehler beim Laden der Versuchsgruppen: '+err.code, null, 'Fehler', 'OK');
-            }
-        });
-    }
-    
     function getPost(postId, callback){
         $.mobile.loading("show");
         $.ajax({
@@ -257,36 +151,7 @@
             }
         });
     }
-    
-    
-    function getAllTopics(expId){
-        $.mobile.loading("show");
-        $.ajax({
-            type: 'GET',
-            url: apidomain+"/exptopics/"+expId,
-            dataType: "json",
-            success: function(result) {            
-                $("#topicsList").empty();
-                var topics = '';
-                for(var i=0;i<result.topics.length;i++){
-                    (function(i){
-                        var expTopic = result.topics[i];
-                        topics += '<li><a href="#topicPage" data-topicId="'+expTopic.id+'">'+ expTopic.topicTitle + '</a></li>';
-                    })(i);
-                }
-                $('#topicsList').append(topics);
-                $('#topicsList').listview('refresh');
-                $.mobile.loading("hide");
-            },
-            error: function(err){
-                //console.log('Fehler beim Laden der Versuchsgruppen: '+err.code);
-                //alert('Fehler beim Laden der Versuchsgruppen: '+err.code);
-                $.mobile.loading("hide");
-                navigator.notification.alert('Fehler beim Laden der Versuchsgruppen: '+err.code, null, 'Fehler', 'OK');
-            }                                                                                             
-        });        
-    }
-    
+        
     function getAllPosts(topicId){            
         $.mobile.loading("show");
         $.ajax({
