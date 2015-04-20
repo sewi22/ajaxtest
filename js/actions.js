@@ -152,11 +152,11 @@
         });
     }
         
-    function getAllPosts(topicid){            
+    function getAllPosts(topic){            
         $.mobile.loading("show");
         $.ajax({
             type: 'GET',
-            url: apidomain+"/topicposts/"+topicid,
+            url: apidomain+"/topicposts/"+topic,
             dataType: "json",
             success: function(result) {
                 for(var i=0;i<result.posts.length;i++){
