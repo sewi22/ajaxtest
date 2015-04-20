@@ -29,6 +29,36 @@
         
     });
     
+    
+    function createNewPost(topicId, postText, isActive){
+        $.mobile.loading("show");
+        $.ajax({
+            type: "POST",
+            beforeSend: function (request){
+                request.setRequestHeader("Authorization", apikey);
+            },
+            url: apidomain+"/posts",
+            //data: "topicId=" + topicId + "&postText=" + postText + "&isActive="+ isActive,
+            data: {
+                topicId: topicId,
+                postText: postText,
+                isActive: isActive
+            },
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "json",
+            success: function(p){
+                sessionStorage.setItem("topicId", topicId);
+                $.mobile.loading("hide");
+                $(':mobile-pagecontainer').pagecontainer('change', '#topicPage');
+            },
+            error: function(err){
+                //okDialog("Es wurde keine Nachricht eingetragen.", function(){});
+                $.mobile.loading("hide");
+                navigator.notification.alert('Der Beitrag konnte nicht gespeichert werden. '+err.message, null, 'Fehler', 'OK');
+            }
+        });
+    }
+    
         
     function createNewTopic(topicTitle, expId, postText, topicIsActive, postIsActive){        
         $.mobile.loading("show");
@@ -106,34 +136,7 @@
     }
             
         
-    function createNewPost(topicId, postText, isActive){
-        $.mobile.loading("show");
-        $.ajax({
-            type: "POST",
-            beforeSend: function (request){
-                request.setRequestHeader("Authorization", apikey);                              
-            },
-            url: apidomain+"/posts",
-            //data: "topicId=" + topicId + "&postText=" + postText + "&isActive="+ isActive,
-            data: {
-                topicId: topicId,
-                postText: postText,
-                isActive: isActive   
-            },
-            contentType: "application/x-www-form-urlencoded",            
-            dataType: "json",        
-            success: function(p){
-                sessionStorage.setItem("topicId", topicId);
-                $.mobile.loading("hide");
-                $(':mobile-pagecontainer').pagecontainer('change', '#topicPage');
-            },
-            error: function(err){                
-                //okDialog("Es wurde keine Nachricht eingetragen.", function(){});
-                $.mobile.loading("hide");
-                navigator.notification.alert('Der Beitrag konnte nicht gespeichert werden. '+err.message, null, 'Fehler', 'OK');
-            }
-        });    
-    }
+    
     
     function editPost(postId, postText, username, isActive){        
         $.mobile.loading("show");
@@ -296,7 +299,7 @@
                             
                                     var timestamp = convertTimestamp(post.created);
                                     var postContent = "";                                  
-                                    if(post.author == localStorage.username){
+                                    if(post.author == username){
                                         postContent += '<div class="post float-left ui-corner-all ui-shadow">';
                                         postContent += '<a href="#" id="deletePostButton" data-postId="'+post.id+'" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all"></a>';
                                         postContent += '<a href="#" id="editPostButton" data-postId="'+post.id+'" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all"></a>';
@@ -308,8 +311,8 @@
                                     postContent += '<p class="postFrom">von '+ post.author+ '<br/>am ' + timestamp +' Uhr</p>';
                                     postContent += '</div>';
                                     postContent += '</div>';
-                                    $('#topicContent').append(postContent);
-                                    $('#topicContent').enhanceWithin();                                                            
+                                    $('#startContent').append(postContent);
+                                    $('#startContent').enhanceWithin();                                                            
                                     $.mobile.loading("hide");
                     })(i);
                 }
