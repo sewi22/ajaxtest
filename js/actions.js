@@ -21,7 +21,7 @@
     
     $.mobile.document.on("click", "#newpost", function(e){
         e.preventDefault();
-        createNewPost($(86, $("#post").val(), 1);
+        createNewPost(86, $("#post").val(), 1);
     });
 
     $.mobile.document.on('pagebeforeshow', '#startPage', function(e){
@@ -49,6 +49,7 @@
             success: function(p){
                 sessionStorage.setItem("topicId", topicId);
                 $.mobile.loading("hide");
+                getAllPosts(86);
                 $(':mobile-pagecontainer').pagecontainer('change', '#topicPage');
             },
             error: function(err){
