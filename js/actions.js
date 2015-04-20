@@ -1,5 +1,5 @@
 
-    var apidomain = "http://winterling.net/phylabapi";
+    var apidomain = "http://winterling.net/phylabapi/v1";
     var username = "swnt24";
     var apikey = "3831621407f42f3290403bff5b57460c";
     
