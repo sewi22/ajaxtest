@@ -31,7 +31,7 @@
     
     $.mobile.document.on("click", "#newpost", function(e){
         e.preventDefault();
-        createNewPost(topicId, $("#post").val(), 1);
+        createNewPost(topicid, $("#post").val(), 1);
     });
 
     $.mobile.document.on('pagebeforeshow', '#startPage', function(e){
@@ -40,7 +40,7 @@
     });
     
     
-    function createNewPost(topicId, postText, isActive){
+    function createNewPost(topicid, postText, isActive){
         $.mobile.loading("show");
         $.ajax({
             type: "POST",
@@ -50,14 +50,14 @@
             url: apidomain+"/posts",
             //data: "topicId=" + topicId + "&postText=" + postText + "&isActive="+ isActive,
             data: {
-                topicId: topicId,
+                topicId: topicid,
                 postText: postText,
                 isActive: isActive
             },
             contentType: "application/x-www-form-urlencoded",
             dataType: "json",
             success: function(p){
-                sessionStorage.setItem("topicId", topicId);
+                sessionStorage.setItem("topicId", topicid);
                 $.mobile.loading("hide");
                 $("#post").val("");
                 //$(':mobile-pagecontainer').pagecontainer('change', '#topicPage');
@@ -88,7 +88,7 @@
             dataType:"json",
             success: function(p){
                 $.mobile.loading("hide");
-                $(':mobile-pagecontainer').pagecontainer('change', '#topicPage');
+                //$(':mobile-pagecontainer').pagecontainer('change', '#topicPage');
             },
             error: function(err){
                 //okDialog(err.message, function(){});
@@ -121,7 +121,7 @@
                 },
                 success: function(p){
                     $.mobile.loading("hide");
-                    $(':mobile-pagecontainer').pagecontainer('change', '#topicPage', {allowSamePageTransition: true});
+                    //$(':mobile-pagecontainer').pagecontainer('change', '#topicPage', {allowSamePageTransition: true});
                 },
                 error: function(err){
                     //okDialog(err.message, function(){console.log(err)});
@@ -152,11 +152,11 @@
         });
     }
         
-    function getAllPosts(topicId){            
+    function getAllPosts(topicid){            
         $.mobile.loading("show");
         $.ajax({
             type: 'GET',
-            url: apidomain+"/topicposts/"+topicId,
+            url: apidomain+"/topicposts/"+topicid,
             dataType: "json",
             success: function(result) {
                 for(var i=0;i<result.posts.length;i++){
